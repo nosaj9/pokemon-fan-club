@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<b>Poke-Info website!</b>
+<h1>Pokemon List (click one for more info)</h1>
+{% if pokemon_list %}
+    <ul>
+    {% for pokemon in pokemon_list %}
+        <li><a href="/pokemon/{{pokemon}}">{{ pokemon }}</a></li>
+    {% endfor %}
+    </ul>
+{% endif %}
+{% endblock %}

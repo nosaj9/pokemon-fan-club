@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<a href="/">Back Home</a>
+{% if pokemon %}
+<h3>{{ pokemon['name'] }}</h3>
+    <h5>Basic Info</h5>
+    <ul>
+        <li>Height: {{ pokemon['height'] }}</li>
+        <li>Weight: {{ pokemon['weight'] }}</li>
+        <li>Base Exp: {{ pokemon['base_exp'] }}</li>
+    </ul>
+
+    {% if pokemon['abilities'] %}
+        <br/>
+        <h5>Abilities</h5>
+        <ul>
+            {% for ability in pokemon['abilities'] %}
+                <li><a href="/ability/{{ ability }}">{{ ability }}</a></li>
+            {% endfor %}
+        </ul>
+
+    {% endif %}
+
+    {% if pokemon['moves'] %}
+        <br/>
+        <h5>Moves</h5>
+        <ul>
+        {% for move in pokemon['moves'] %}
+            <li>{{ move }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endif %}
+{% endblock %}
