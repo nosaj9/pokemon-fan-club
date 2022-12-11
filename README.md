@@ -1,1 +1,1 @@
-# pokemonrater
+# pokemon rater
