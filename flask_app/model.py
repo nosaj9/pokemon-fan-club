@@ -12,7 +12,7 @@ class PokeClient(object):
         Returns a list of pokemon names
         """
         pokemon = []
-        resp = self.sess.get(f'{self.base_url}/pokemon?limit=1200')
+        resp = self.sess.get(f'{self.base_url}/pokemon?limit=151')
         for poke_dict in resp.json()['results']:
             pokemon.append(poke_dict['name'])
         return pokemon
