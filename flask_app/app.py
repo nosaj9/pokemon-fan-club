@@ -40,24 +40,20 @@ from flask import Flask, render_template
 from model import PokeClient
 # from .users.routes import users
 # from .pokemon.routes import pokemon
+db = MongoEngine()
+bcrypt = Bcrypt()
+login_manager = LoginManager()
 
 app = Flask(__name__)
 # main = Blueprint("main", __name__)
 # app.register_blueprint(main)
 # app.register_blueprint(users)
 
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = "users.login"
-
-db = MongoEngine()
-bcrypt = Bcrypt()
-
-poke_client = PokeClient()
-
 db.init_app(app)
 login_manager.init_app(app)
 bcrypt.init_app(app)
+login_manager.login_view = "users.login"
+poke_client = PokeClient()
 
 @app.route('/')
 def index():
