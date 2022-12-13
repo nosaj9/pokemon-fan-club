@@ -27,16 +27,9 @@ import base64
 
 # local
 from flask_bcrypt import Bcrypt
-from forms import (
-    PokemonCommentForm,
-    RegistrationForm,
-    LoginForm,
-    UpdateUsernameForm,
-)
-
 from flask import Flask, render_template
 
-
+import os
 # from .users.routes import users
 # from .pokemon.routes import pokemon
 db = MongoEngine()
@@ -44,9 +37,11 @@ bcrypt = Bcrypt()
 login_manager = LoginManager()
 
 app = Flask(__name__)
+app.config["SECRET_KEY"] = os.urandom(16)
 # main = Blueprint("main", __name__)
 # app.register_blueprint(main)
-# app.register_blueprint(users)
+from users.routes import users
+app.register_blueprint(users)
 
 db.init_app(app)
 login_manager.init_app(app)
@@ -58,6 +53,13 @@ poke_client = PokeClient()
 
 
 from models import User, load_user
+from forms import (
+    PokemonCommentForm,
+    RegistrationForm,
+    LoginForm,
+    UpdateUsernameForm,
+)
+
 from model import PokeClient
 
 @app.route('/')
@@ -90,19 +92,19 @@ def pokemon_with_ability(ability_name):
     
     return render_template('ability.html', ability=ability_name, ability_pokemon=poke_client.get_pokemon_with_ability(ability_name))
 
-@app.route("/register", methods=["GET", "POST"])
-def register():
-    if current_user.is_authenticated:
-        return redirect(url_for("index"))
+# @app.route("/register", methods=["GET", "POST"])
+# def register():
+#     if current_user.is_authenticated:
+#         return redirect(url_for("index"))
 
-    form = RegistrationForm()
+#     form = RegistrationForm()
 
-    if form.validate_on_submit():
-        hashed = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
-        user = User(username=form.username.data, email=form.email.data, password=hashed)
-        user.save()
+#     if form.validate_on_submit():
+#         hashed = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
+#         user = User(username=form.username.data, email=form.email.data, password=hashed)
+#         user.save()
 
-        #change to "login" later
-        return redirect(url_for("index"))
+#         #change to "login" later
+#         return redirect(url_for("index"))
 
-    return render_template("register.html", title="Register", form=form)
+#     return render_template("register.html", title="Register", form=form)
