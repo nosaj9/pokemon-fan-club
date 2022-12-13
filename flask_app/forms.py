@@ -14,7 +14,7 @@ from wtforms.validators import (
 )
 
 
-from models import User
+# from models import User
 
 
 class PokemonCommentForm(FlaskForm):

@@ -33,11 +33,10 @@ from forms import (
     LoginForm,
     UpdateUsernameForm,
 )
-from models import User, Comment, load_user
 
 from flask import Flask, render_template
 
-from model import PokeClient
+
 # from .users.routes import users
 # from .pokemon.routes import pokemon
 db = MongoEngine()
@@ -53,7 +52,13 @@ db.init_app(app)
 login_manager.init_app(app)
 bcrypt.init_app(app)
 login_manager.login_view = "users.login"
+
+from model import PokeClient
 poke_client = PokeClient()
+
+
+from models import User, load_user
+from model import PokeClient
 
 @app.route('/')
 def index():
