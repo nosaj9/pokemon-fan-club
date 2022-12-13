@@ -5,7 +5,7 @@
     <h5>Basic Info</h5>
     <ul>
         <li>
-            Types:
+            Type(s):
             <ul>
             {% for i in pokemon['types'] %}
                 <li>
@@ -52,9 +52,9 @@
                 <small>c.date </small>
               </span> -->
               <!-- add back curly braces when ready -->
-              <!-- <a href=" url_for('pokemon.user_detail', username=c.commenter.username) "> -->
-                <strong>{{ c.commenter.username }} @ </strong>{{ c.date }}
-              <!-- </a> -->
+              <a href="{{ url_for('users.user_detail', username=c.commenter.username) }}">
+                <strong>{{ c.commenter.username }} </strong>
+              </a><span>@ {{ c.date }}</span>
               <p>
                 {{ c.content }}
               </p>

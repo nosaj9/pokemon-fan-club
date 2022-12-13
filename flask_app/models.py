@@ -16,6 +16,8 @@ class User(db.Document, UserMixin):
     email = db.EmailField(required=True, unique=True)
     password = db.StringField(required=True)
 
+    favorite_pokemon = db.StringField()
+
     # Returns unique string identifying our object
     def get_id(self):
         return self.username
