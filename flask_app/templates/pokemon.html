@@ -43,20 +43,17 @@
     {# Comments #}
     <div class="row">
       <div class="col-md-10">
-        <h1> Comments ({{ comments|length }} comments)</h1>
+        <h1>Comments ({{ comments|length }} comments)</h1>
         <ul class="media-list">
-          {% for c in comments %}
+          {% for comment in comments %}
           <li class="media review-item" style="border: 1px solid black">
             <div class="media-body">
-              <!-- <span class="float-right">
-                <small>c.date </small>
-              </span> -->
               <!-- add back curly braces when ready -->
-              <a href="{{ url_for('users.user_detail', username=c.commenter.username) }}">
-                <strong>{{ c.commenter.username }} </strong>
-              </a><span>@ {{ c.date }}</span>
+              <a href="{{ url_for('users.user_detail', username=comment.commenter.username) }}">
+                <strong>{{ comment.commenter.username }} </strong>
+              </a><span>@ {{ comment.date }}</span>
               <p>
-                {{ c.content }}
+                {{ comment.content }}
               </p>
             </div>
           </li>
@@ -66,7 +63,7 @@
     </div>
     
     {% if current_user.is_authenticated %}
-    {# Comment submission form #}
+    {# Comment and Favorite submission form #}
     <div class="row">
       <div class="col-md-10">
         <form method="POST" action="">
@@ -82,11 +79,20 @@
               {% endfor %}
             </div>
             {% endif %}
-    
+            <br/>
+            {{ form.submit() }}
           </div>
-          {{ form.submit() }}
+
         </form>
       </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+          <form method="POST" action="">
+            {{ favorite_form.csrf_token }}
+            {{ favorite_form.submit() }}
+          </form>
+        </div>
     </div>
     {% endif %}
 

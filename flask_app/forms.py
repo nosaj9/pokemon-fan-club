@@ -52,6 +52,9 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Login")
 
 
+class FavoritePokemonForm(FlaskForm):
+    submit = SubmitField("Favorite This Pokemon!")
+
 class UpdateUsernameForm(FlaskForm):
     username = StringField(
         "Username", validators=[InputRequired(), Length(min=1, max=40)]
