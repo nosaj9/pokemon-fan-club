@@ -14,14 +14,7 @@ from wtforms.validators import (
 )
 
 
-from .models import User
-
-
-class SearchForm(FlaskForm):
-    search_query = StringField(
-        "Query", validators=[InputRequired(), Length(min=1, max=100)]
-    )
-    submit = SubmitField("Search")
+from models import User
 
 
 class PokemonCommentForm(FlaskForm):

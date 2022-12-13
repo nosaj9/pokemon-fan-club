@@ -1,7 +1,7 @@
-{% extends "base.html" %}
+{% extends "header.html" %}
 {% block content %}
-<b>Poke-Info website!</b>
-<h1>Pokemon List (click one for more info)</h1>
+<b>Pokemon List (Original 151)</b>
+<p>Click to see more info and leave a rating</p>
 {% if pokemon_list %}
     <ul>
     {% for pokemon in pokemon_list %}

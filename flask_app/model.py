@@ -47,6 +47,7 @@ class PokeClient(object):
         result = {}
 
         result['name'] = resp['name']
+        result['types'] = resp['types']
         result['height'] = resp['height']
         result['weight'] = resp['weight']
         result['base_exp'] = resp['base_experience']
@@ -65,27 +66,27 @@ class PokeClient(object):
 
         return result
 
-    def get_pokemon_with_ability(self, ability):
-        """
-        Arguments:
+    # def get_pokemon_with_ability(self, ability):
+    #     """
+    #     Arguments:
 
-        ability -- a lowercase string identifying an ability
+    #     ability -- a lowercase string identifying an ability
 
-        Returns a list of strings identifying pokemon that have the specified ability
-        """
-        req = f'ability/{ability}'
-        resp = self.sess.get(f'{self.base_url}/{req}')
+    #     Returns a list of strings identifying pokemon that have the specified ability
+    #     """
+    #     req = f'ability/{ability}'
+    #     resp = self.sess.get(f'{self.base_url}/{req}')
 
-        code = resp.status_code
-        if code != 200:
-            raise ValueError(f'Request failed with status code: {code} and message: '
-                             f'{resp.text}')
+    #     code = resp.status_code
+    #     if code != 200:
+    #         raise ValueError(f'Request failed with status code: {code} and message: '
+    #                          f'{resp.text}')
 
-        pokemon = []
-        for poke_dict in resp.json()['pokemon']:
-            pokemon.append(poke_dict['pokemon']['name'])
+    #     pokemon = []
+    #     for poke_dict in resp.json()['pokemon']:
+    #         pokemon.append(poke_dict['pokemon']['name'])
         
-        return pokemon
+    #     return pokemon
 
 ## -- Example usage -- ###
 if __name__=='__main__':
