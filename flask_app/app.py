@@ -38,6 +38,7 @@ login_manager = LoginManager()
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.urandom(16)
+app.config["MONGODB_HOST"] = "mongodb://localhost:27017/pokemon_rater"
 # main = Blueprint("main", __name__)
 # app.register_blueprint(main)
 from users.routes import users
@@ -91,20 +92,3 @@ def pokemon_with_ability(ability_name):
     """
     
     return render_template('ability.html', ability=ability_name, ability_pokemon=poke_client.get_pokemon_with_ability(ability_name))
-
-# @app.route("/register", methods=["GET", "POST"])
-# def register():
-#     if current_user.is_authenticated:
-#         return redirect(url_for("index"))
-
-#     form = RegistrationForm()
-
-#     if form.validate_on_submit():
-#         hashed = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
-#         user = User(username=form.username.data, email=form.email.data, password=hashed)
-#         user.save()
-
-#         #change to "login" later
-#         return redirect(url_for("index"))
-
-#     return render_template("register.html", title="Register", form=form)
