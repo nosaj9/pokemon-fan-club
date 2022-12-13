@@ -68,7 +68,7 @@
     {% if current_user.is_authenticated %}
     {# Comment submission form #}
     <div class="row">
-      <div class="col">
+      <div class="col-md-10">
         <form method="POST" action="">
           {{ form.csrf_token }}
           <div class="form-group">
