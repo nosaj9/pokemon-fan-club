@@ -59,5 +59,5 @@ def pokemon_with_ability(ability_name):
 
     Check the README for more detail
     """
-    
-    return render_template('ability.html', ability=ability_name, ability_pokemon=poke_client.get_pokemon_with_ability(ability_name))
+
+    return render_template('ability.html', ability=ability_name, description=poke_client.get_ability_description(ability_name), ability_pokemon=poke_client.get_pokemon_with_ability(ability_name))

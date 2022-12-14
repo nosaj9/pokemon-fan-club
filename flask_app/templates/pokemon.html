@@ -26,7 +26,7 @@
         <h5>Abilities</h5>
         <ul>
             {% for ability in pokemon['abilities'] %}
-                <li>{{ ability }}
+                <li><a href="/ability/{{ ability }}">{{ ability }}</a></li>
             {% endfor %}
         </ul>
 
@@ -53,7 +53,6 @@
           {% for comment in comments %}
           <li class="media review-item" style="border: 1px solid black">
             <div class="media-body">
-              <!-- add back curly braces when ready -->
               <a href="{{ url_for('users.user_detail', username=comment.commenter.username) }}">
                 <strong>{{ comment.commenter.username }} </strong>
               </a><span>@ {{ comment.date }}</span>

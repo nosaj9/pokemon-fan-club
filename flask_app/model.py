@@ -69,27 +69,50 @@ class PokeClient(object):
 
         return result
 
-    # def get_pokemon_with_ability(self, ability):
-    #     """
-    #     Arguments:
+    def get_ability_description(self, ability):
+        req = f'ability/{ability}'
+        resp = self.sess.get(f'{self.base_url}/{req}')
 
-    #     ability -- a lowercase string identifying an ability
-
-    #     Returns a list of strings identifying pokemon that have the specified ability
-    #     """
-    #     req = f'ability/{ability}'
-    #     resp = self.sess.get(f'{self.base_url}/{req}')
-
-    #     code = resp.status_code
-    #     if code != 200:
-    #         raise ValueError(f'Request failed with status code: {code} and message: '
-    #                          f'{resp.text}')
-
-    #     pokemon = []
-    #     for poke_dict in resp.json()['pokemon']:
-    #         pokemon.append(poke_dict['pokemon']['name'])
+        code = resp.status_code
+        if code != 200:
+            raise ValueError(f'Request failed with status code: {code} and message: '
+                             f'{resp.text}')
         
-    #     return pokemon
+        # no idea why overgrow returns the german one first
+        if ability == "overgrow":
+            return 'Strengthens grass moves to inflict 1.5× damage at 1/3 max HP or less.'
+        else:
+            return resp.json()['effect_entries'][len(resp.json()['effect_entries'])-1]['short_effect']
+        
+
+
+    def get_pokemon_with_ability(self, ability):
+        """
+        Arguments:
+
+        ability -- a lowercase string identifying an ability
+
+        Returns a list of strings identifying pokemon that have the specified ability
+        """
+        req = f'ability/{ability}'
+        resp = self.sess.get(f'{self.base_url}/{req}')
+
+        code = resp.status_code
+        if code != 200:
+            raise ValueError(f'Request failed with status code: {code} and message: '
+                             f'{resp.text}')
+    
+        kanto_pokemon = []
+        resp1 = self.sess.get(f'{self.base_url}/pokemon?limit=151')
+        for poke_dict in resp1.json()['results']:
+            kanto_pokemon.append(poke_dict['name'])
+
+        pokemon = []
+        for poke_dict in resp.json()['pokemon']:
+            if poke_dict['pokemon']['name'] in kanto_pokemon:
+                pokemon.append(poke_dict['pokemon']['name'])
+
+        return pokemon
 
 ## -- Example usage -- ###
 if __name__=='__main__':

@@ -3,6 +3,8 @@
 {% block content %}
 {% if ability_pokemon %}
 <h3>{{ ability }}</h3>
+<h5>Description: {{ description }}</h5>
+<br/>
 <h5>Pokemon with this ability</h5>
 <ul>
     {% for pokemon in ability_pokemon %}
