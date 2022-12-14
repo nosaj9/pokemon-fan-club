@@ -3,11 +3,13 @@
 <div class="row">
     <div class="col">
         <h2>{{ username }}'s Profile</h2>
+        <h3>Favorite Pokemon: {{ favorite_pokemon }}</h3>
+        <img src="{{ pokemon['sprite'].front_default }}" width="150rem">
     </div>
 </div>
 <div class="row">
     <div class="col">
-        <h1><span style="text-decoration: underline;">Comments</span><small class="float-right" style="margin-right: 5rem;">{{ comments.count() }} comments</small></h1>
+        <h3><span style="text-decoration: underline;">Comments</span><small class="float-right" style="margin-right: 5rem;">{{ comments.count() }} comments</small></h3>
         <ul class="media-list" style="margin-right: 5rem;">
             {% for comment in comments %}
             <li class="media review-item">

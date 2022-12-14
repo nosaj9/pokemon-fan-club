@@ -5,6 +5,8 @@ from app import bcrypt
 from forms import RegistrationForm, LoginForm, UpdateUsernameForm
 from models import User, Comment
 
+import requests
+
 users = Blueprint('users', __name__)
 
 @users.route("/register", methods=["GET", "POST"])
@@ -62,11 +64,28 @@ def account():
         current_user.modify(username=username_form.username.data)
         current_user.save()
         return redirect(url_for("users.account"))
+    
+    sess = requests.Session()
+    sess.headers.update({'User Agent': 'CMSC388J Spring 2021 Project 2'})
+    base_url = 'https://pokeapi.co/api/v2'
+    req = f'pokemon/{ current_user.favorite_pokemon }'
+    resp = sess.get(f'{base_url}/{req}')
+
+    code = resp.status_code
+    if code != 200:
+        raise ValueError(f'Request failed with status code: {code} and message: '
+                            f'{resp.text}')
+        
+    resp = resp.json()
+        
+    result = {}
+    result['sprite'] = resp['sprites']
 
     return render_template(
         "account.html",
         title="Account",
         username_form=username_form,
+        pokemon=result
     )
 
 @users.route("/user/<username>", methods=["GET", "POST"])
@@ -74,4 +93,20 @@ def user_detail(username):
     user = User.objects(username=username).first()
     comments = Comment.objects(commenter=user)
 
-    return render_template("user_detail.html", username=username, comments=comments)
+    sess = requests.Session()
+    sess.headers.update({'User Agent': 'CMSC388J Spring 2021 Project 2'})
+    base_url = 'https://pokeapi.co/api/v2'
+    req = f'pokemon/{ user.favorite_pokemon }'
+    resp = sess.get(f'{base_url}/{req}')
+
+    code = resp.status_code
+    if code != 200:
+        raise ValueError(f'Request failed with status code: {code} and message: '
+                            f'{resp.text}')
+        
+    resp = resp.json()
+        
+    result = {}
+    result['sprite'] = resp['sprites']
+
+    return render_template("user_detail.html", username=username, favorite_pokemon=user.favorite_pokemon, comments=comments, pokemon=result)
