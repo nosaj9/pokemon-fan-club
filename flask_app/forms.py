@@ -28,8 +28,8 @@ def password_check(form, field):
         raise ValidationError("Password must have at least one uppercase letter")
     elif re.search('[0-9]', field.data) is None:
         raise ValidationError('Password must contain a number')
-    # elif re.search('[~!@#\$%^&]',password) is None:
-    #     raise ValidationError('Password must contain a special symbol')
+    elif re.search('[~!@#\$%^&()?<>,.;:]', field.data) is None:
+        raise ValidationError('Password must contain a special symbol')
 
 class RegistrationForm(FlaskForm):
     username = StringField(
