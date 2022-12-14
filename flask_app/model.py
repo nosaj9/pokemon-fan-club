@@ -52,6 +52,7 @@ class PokeClient(object):
         result['weight'] = resp['weight']
         result['base_exp'] = resp['base_experience']
 
+        result['dex_number'] = resp['id']
         result['sprite'] = resp['sprites']
 
         moves = []
