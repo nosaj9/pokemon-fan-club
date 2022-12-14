@@ -1,24 +1,12 @@
-from flask import (
-    render_template,
-    request,
-    redirect,
-    url_for,
-    flash,
-    jsonify,
-    Blueprint,
-    session,
-    g,
-)
 from flask_mongoengine import MongoEngine
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 
-# stdlib
 from datetime import datetime
 import io
 import base64
+import os
 
-# local
 from flask_bcrypt import Bcrypt
 from flask import Flask, render_template
 from flask_talisman import Talisman
@@ -26,7 +14,6 @@ from flask_talisman import Talisman
 def page_not_found(e):
     return render_template("404.html"), 404
 
-import os
 
 db = MongoEngine()
 bcrypt = Bcrypt()
