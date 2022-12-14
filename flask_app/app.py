@@ -29,6 +29,8 @@ import base64
 from flask_bcrypt import Bcrypt
 from flask import Flask, render_template
 
+from flask_fontawesome import FontAwesome
+
 import os
 # from .users.routes import users
 # from .pokemon.routes import pokemon
@@ -49,6 +51,7 @@ app.register_blueprint(pokemon)
 db.init_app(app)
 login_manager.init_app(app)
 bcrypt.init_app(app)
+fa = FontAwesome(app)
 login_manager.login_view = "users.login"
 
 from model import PokeClient

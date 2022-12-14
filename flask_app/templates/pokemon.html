@@ -3,7 +3,7 @@
 {% if pokemon %}
 <h3><u>{{ pokemon['name'] }}</u></h3>
     <img src="{{ pokemon['sprite'].front_default }}" width="150rem">
-    <h5>Basic Info</h5>
+    <h5>Basic Info {{ info_emoji }}</h5>
     <ul>
         <li>Pokedex Number: #{{ pokemon['dex_number']}}</li>
         <li>
@@ -23,7 +23,7 @@
 
     {% if pokemon['abilities'] %}
         <br/>
-        <h5>Abilities</h5>
+        <h5>Abilities {{ ability_emoji }}</h5>
         <ul>
             {% for ability in pokemon['abilities'] %}
                 <li><a href="/ability/{{ ability }}">{{ ability }}</a></li>
@@ -34,7 +34,7 @@
 
     {% if pokemon['moves'] %}
         <br/>
-        <h5>Moves</h5>
+        <h5>Moves {{ moves_emoji }}</h5>
         <ul>
         {% for move in pokemon['moves'] %}
             <li>{{ move }}</li>
@@ -94,7 +94,7 @@
         <div class="col-md-10">
           <form method="POST" action="">
             {{ favorite_form.csrf_token }}
-            {{ favorite_form.submit() }}
+            {{ favorite_form.submit() }}{{ heart_emoji }}
           </form>
         </div>
     </div>

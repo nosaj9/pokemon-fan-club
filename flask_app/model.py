@@ -1,6 +1,5 @@
 import requests
 
-
 class PokeClient(object):
     def __init__(self):
         self.sess = requests.Session()

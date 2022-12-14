@@ -6,6 +6,7 @@ from forms import RegistrationForm, LoginForm, UpdateUsernameForm, PokemonCommen
 from models import User, Comment
 from model import PokeClient
 from datetime import datetime
+from emoji import emojize
 
 poke_client = PokeClient()
 
@@ -49,9 +50,18 @@ def pokemon_info(pokemon_name):
     comments = Comment.objects(pokemon_name=pokemon_name)
     num_favorited = len(User.objects(favorite_pokemon=pokemon_name))
 
-    return render_template('pokemon.html', pokemon=poke_client.get_pokemon_info(pokemon_name), form=form, comments=comments, favorite_form=favorite, num_favorited=num_favorited)
+    return render_template('pokemon.html', 
+    pokemon=poke_client.get_pokemon_info(pokemon_name), 
+    form=form, 
+    comments=comments, 
+    favorite_form=favorite, 
+    num_favorited=num_favorited, 
+    info_emoji=emojize(":pencil:"),
+    ability_emoji=emojize(":magic_wand:"),
+    moves_emoji=emojize(":collision:"),
+    heart_emoji=emojize(":green_heart:")
+    )
 
-# currently no way to access on website besides manually typing the url
 @pokemon.route('/ability/<ability_name>')
 def pokemon_with_ability(ability_name):
     """
