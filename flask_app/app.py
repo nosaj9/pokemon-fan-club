@@ -28,6 +28,7 @@ import base64
 # local
 from flask_bcrypt import Bcrypt
 from flask import Flask, render_template
+from flask_talisman import Talisman
 
 import os
 # from .users.routes import users
@@ -46,9 +47,16 @@ from pokemon.routes import pokemon
 app.register_blueprint(users)
 app.register_blueprint(pokemon)
 
+csp = {
+    'default-src': '\'self\'',
+    # 'img-src': '*',
+    # 'script-src': '*min.js'
+}
+
 db.init_app(app)
 login_manager.init_app(app)
 bcrypt.init_app(app)
+#Talisman(app, content_security_policy=csp)
 login_manager.login_view = "users.login"
 
 from model import PokeClient
