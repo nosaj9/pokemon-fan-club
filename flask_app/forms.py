@@ -13,7 +13,7 @@ from wtforms.validators import (
     ValidationError,
 )
 
-
+import re
 from models import User
 
 
@@ -23,13 +23,20 @@ class PokemonCommentForm(FlaskForm):
     )
     submit = SubmitField("Enter Comment")
 
+def password_check(form, field):
+    if re.search('[A-Z]', field.data) is None:
+        raise ValidationError("Password must have at least one uppercase letter")
+    elif re.search('[0-9]', field.data) is None:
+        raise ValidationError('Password must contain a number')
+    # elif re.search('[~!@#\$%^&]',password) is None:
+    #     raise ValidationError('Password must contain a special symbol')
 
 class RegistrationForm(FlaskForm):
     username = StringField(
         "Username", validators=[InputRequired(), Length(min=1, max=40)]
     )
     email = StringField("Email", validators=[InputRequired(), Email()])
-    password = PasswordField("Password", validators=[InputRequired()])
+    password = PasswordField("Password", validators=[InputRequired(), Length(min=12), password_check])
     confirm_password = PasswordField(
         "Confirm Password", validators=[InputRequired(), EqualTo("password")]
     )
