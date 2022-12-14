@@ -30,6 +30,9 @@ from flask_bcrypt import Bcrypt
 from flask import Flask, render_template
 from flask_talisman import Talisman
 
+def page_not_found(e):
+    return render_template("404.html"), 404
+
 import os
 # from .users.routes import users
 # from .pokemon.routes import pokemon
@@ -37,7 +40,15 @@ db = MongoEngine()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
 
+# pass this into Talisman when ready
+csp = {
+    'default-src': '\'self\'',
+    # 'img-src': '*',
+    # 'script-src': '*min.js'
+}
+
 app = Flask(__name__)
+#Talisman(app, content_security_policy=None)
 app.config["SECRET_KEY"] = os.urandom(16)
 app.config["MONGODB_HOST"] = "mongodb://localhost:27017/pokemon_rater"
 # main = Blueprint("main", __name__)
@@ -47,58 +58,12 @@ from pokemon.routes import pokemon
 app.register_blueprint(users)
 app.register_blueprint(pokemon)
 
-csp = {
-    'default-src': '\'self\'',
-    # 'img-src': '*',
-    # 'script-src': '*min.js'
-}
-
 db.init_app(app)
 login_manager.init_app(app)
 bcrypt.init_app(app)
-#Talisman(app, content_security_policy=csp)
 login_manager.login_view = "users.login"
+
+app.register_error_handler(404, page_not_found)
 
 from model import PokeClient
 poke_client = PokeClient()
-
-
-# from models import User, load_user
-# from forms import (
-#     PokemonCommentForm,
-#     RegistrationForm,
-#     LoginForm,
-#     UpdateUsernameForm,
-# )
-
-# from model import PokeClient
-
-# @app.route('/')
-# def index():
-#     """
-#     Must show all of the pokemon names as clickable links
-
-#     Check the README for more detail.
-#     """
-    
-#     return render_template('index.html', pokemon_list=poke_client.get_pokemon_list())
-
-# @app.route('/pokemon/<pokemon_name>')
-# def pokemon_info(pokemon_name):
-#     """
-#     Must show all the info for a pokemon identified by name
-
-#     Check the README for more detail
-#     """
-
-#     return render_template('pokemon.html', pokemon=poke_client.get_pokemon_info(pokemon_name))
-
-# @app.route('/ability/<ability_name>')
-# def pokemon_with_ability(ability_name):
-#     """
-#     Must show a list of pokemon 
-
-#     Check the README for more detail
-#     """
-    
-#     return render_template('ability.html', ability=ability_name, ability_pokemon=poke_client.get_pokemon_with_ability(ability_name))

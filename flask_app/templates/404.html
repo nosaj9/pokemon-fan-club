@@ -1,0 +1,23 @@
+{% extends "header.html" %}
+{% block content %}
+
+<div class="row">
+    <div class="col" style="text-align: center;">
+        <h1>
+            Oops!
+        </h1>
+        <h6>
+            404 - Page Not Found
+        </h6>
+        <h6>
+            Why did the Miltank cross the road? To get to the udder side :)
+        </h6>
+        <b>
+            <a href="{{ url_for('pokemon.index') }}">
+                Return Home
+            </a>
+        </b>
+    </div>
+</div>
+
+{% endblock %}
