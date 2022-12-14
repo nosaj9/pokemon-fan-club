@@ -52,6 +52,8 @@ class PokeClient(object):
         result['weight'] = resp['weight']
         result['base_exp'] = resp['base_experience']
 
+        result['sprite'] = resp['sprites']
+
         moves = []
         for move_dict in resp['moves']:
             moves.append(move_dict['move']['name'])

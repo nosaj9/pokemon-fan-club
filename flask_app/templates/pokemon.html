@@ -1,7 +1,8 @@
 {% extends "header.html" %}
 {% block content %}
 {% if pokemon %}
-<h3>{{ pokemon['name'] }}</h3>
+<h3><u>{{ pokemon['name'] }}</u></h3>
+    <img src="{{ pokemon['sprite'].front_default }}" width="150rem">
     <h5>Basic Info</h5>
     <ul>
         <li>
@@ -43,7 +44,10 @@
     {# Comments #}
     <div class="row">
       <div class="col-md-10">
-        <h1>Comments ({{ comments|length }} comments)</h1>
+        <br/>
+        <h3>{{ num_favorited }} people have favorited this Pokemon</h3>
+        <br/>
+        <h3>Comments ({{ comments|length }} comments)</h3>
         <ul class="media-list">
           {% for comment in comments %}
           <li class="media review-item" style="border: 1px solid black">
