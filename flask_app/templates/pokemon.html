@@ -35,11 +35,11 @@
     {% if pokemon['moves'] %}
         <br/>
         <h5>Moves {{ moves_emoji }}</h5>
-        <ul>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr;">
         {% for move in pokemon['moves'] %}
-            <li>{{ move }}</li>
+            <div><li>{{ move }}</li></div>
         {% endfor %}
-        </ul>
+        </div>
     {% endif %}
     
     {# Comments #}
