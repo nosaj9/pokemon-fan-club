@@ -34,8 +34,7 @@ def page_not_found(e):
     return render_template("404.html"), 404
 
 import os
-# from .users.routes import users
-# from .pokemon.routes import pokemon
+
 db = MongoEngine()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
