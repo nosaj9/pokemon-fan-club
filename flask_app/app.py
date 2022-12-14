@@ -10,15 +10,8 @@ from flask import (
     g,
 )
 from flask_mongoengine import MongoEngine
-from flask_login import (
-    LoginManager,
-    current_user,
-    login_user,
-    logout_user,
-    login_required,
-)
+from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
-from werkzeug.utils import secure_filename
 
 # stdlib
 from datetime import datetime
