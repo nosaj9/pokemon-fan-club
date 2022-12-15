@@ -12,7 +12,7 @@
         <h3><span style="text-decoration: underline;">Comments</span><small class="float-right" style="margin-right: 5rem;">{{ comments.count() }} comments</small></h3>
         <ul class="media-list" style="margin-right: 5rem;">
             {% for comment in comments %}
-            <li class="media review-item">
+            <li class="media review-item" style="margin-left: -3rem;">
                 <div class="media-body">
                     <span class="float-right">
                         <small>{{ comment.date }}</small>

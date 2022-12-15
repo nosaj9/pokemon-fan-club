@@ -15,13 +15,13 @@ from wtforms.validators import (
 
 import re
 from models import User
-
+from emoji import emojize
 
 class PokemonCommentForm(FlaskForm):
     text = TextAreaField(
         "Comment", validators=[InputRequired(), Length(min=5, max=500)]
     )
-    submit = SubmitField("Enter Comment")
+    submit = SubmitField("Enter Comment " + emojize(":speech_balloon:"))
 
 def password_check(form, field):
     if re.search('[A-Z]', field.data) is None:
@@ -60,7 +60,7 @@ class LoginForm(FlaskForm):
 
 
 class FavoritePokemonForm(FlaskForm):
-    submit = SubmitField("Favorite This Pokemon!")
+    submit = SubmitField("Favorite This Pokemon! " + emojize(":green_heart:"))
 
 class UpdateUsernameForm(FlaskForm):
     username = StringField(

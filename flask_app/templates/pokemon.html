@@ -2,6 +2,15 @@
 {% block content %}
 {% if pokemon %}
 <h3><u>{{ pokemon['name'] }}</u></h3>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-info" style="margin-left: -2rem;">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
     <img src="{{ pokemon['sprite'].front_default }}" width="150rem">
     <h5>Basic Info {{ info_emoji }}</h5>
     <ul>
@@ -51,7 +60,7 @@
         <h3>Comments ({{ comments|length }} comments)</h3>
         <ul class="media-list">
           {% for comment in comments %}
-          <li class="media review-item" style="border: 1px solid black">
+          <li class="media review-item" style="border: 1px solid black; border-radius: 2rem; margin-bottom: 1rem;">
             <div class="media-body">
               <a href="{{ url_for('users.user_detail', username=comment.commenter.username) }}">
                 <strong>{{ comment.commenter.username }} </strong>
@@ -94,7 +103,7 @@
         <div class="col-md-10">
           <form method="POST" action="">
             {{ favorite_form.csrf_token }}
-            {{ favorite_form.submit() }}{{ heart_emoji }}
+            <span style="margin-left: 2rem;">{{ favorite_form.submit() }}</span>
           </form>
         </div>
     </div>

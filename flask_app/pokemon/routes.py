@@ -33,7 +33,7 @@ def pokemon_info(pokemon_name):
     elif favorite.validate_on_submit() and current_user.is_authenticated:
         current_user.modify(favorite_pokemon=pokemon_name)
         current_user.save()
-
+        flash("Favorite Pokemon successfully updated!")
         return redirect(request.path)
 
     comments = Comment.objects(pokemon_name=pokemon_name)
@@ -48,7 +48,6 @@ def pokemon_info(pokemon_name):
     info_emoji=emojize(":pencil:"),
     ability_emoji=emojize(":magic_wand:"),
     moves_emoji=emojize(":collision:"),
-    heart_emoji=emojize(":green_heart:")
     )
 
 @pokemon.route('/ability/<ability_name>')
