@@ -1,5 +1,5 @@
 # Pokemon Fan Club
-Flask app that allows you to view the original 151 Pokemon of Kanto and give them a rating and leave reviews/suggestions for trainers (must login to do this).  
+Flask app that allows you to view the original 151 Pokemon of Kanto and leave a comment and/or favorite a Pokemon (must be logged in to do both of these) 
 
 **New Python Packages Used**  
 pokeapiwrapper - used to show more information about the pokemon in tandem with pokeapi  
