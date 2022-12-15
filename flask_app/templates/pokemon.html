@@ -29,7 +29,7 @@
         <li>Weight: {{ pokemon['weight'] }}</li>
         <li>Base Exp: {{ pokemon['base_exp'] }}</li>
     </ul>
-
+    
     {% if pokemon['stats'] %}
         <br/>
         <h5>Stats {{ stats_emoji }}</h5>
@@ -51,6 +51,21 @@
             {% endfor %}
         </ul>
 
+    {% endif %}
+    
+
+    <br/>
+    <h5>Where to find {{ pokemon['name'] }} in Kanto {{ locations_emoji }}</h5>
+    {% if pokemon['locations'] %}
+        <ul>
+        {% for location in pokemon['locations'] %}
+            <li>
+                {{ location }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <ul><li>Cannot be encountered in the wild!</li></ul>
     {% endif %}
 
     {% if pokemon['moves'] %}

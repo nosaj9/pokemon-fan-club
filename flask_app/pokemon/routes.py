@@ -48,6 +48,7 @@ def pokemon_info(pokemon_name):
     info_emoji=emojize(":pencil:"),
     ability_emoji=emojize(":magic_wand:"),
     stats_emoji=emojize(":file_folder:"),
+    locations_emoji=emojize(":world_map:"),
     moves_emoji=emojize(":crossed_swords:"),
     )
 

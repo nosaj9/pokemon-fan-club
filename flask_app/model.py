@@ -1,5 +1,6 @@
 import requests
 from pokeapi.pokemon import Pokemon
+import re
 
 class PokeClient(object):
     def __init__(self):
@@ -54,15 +55,8 @@ class PokeClient(object):
 
         result['dex_number'] = resp['id']
         result['sprite'] = resp['sprites']
-
-        moves = []
-        for move_dict in resp['moves']:
-            # level = Pokemon(result['name']).getMoveVersionDetails(move_dict['move']['name'])[0]['level']
-            # if level != 0:
-            #     moves.append(move_dict['move']['name'] + " (Level " + str(level) + ")")
-            moves.append(move_dict['move']['name'])
         
-        result['moves'] = moves
+        result['moves'] = Pokemon(result['name']).getMoves()
 
         abilities = []
         for ability_dict in resp['abilities']:
@@ -70,6 +64,28 @@ class PokeClient(object):
         
         result['abilities'] = abilities
         result['stats'] = Pokemon(result['name']).getStats()
+
+        locations = []
+        #for i in range(0, len(resp['location_area_encounters'])):
+            #if "kanto" in resp['location_area_encounters']:
+                #locations.push(resp['location_area_encounters']['location_area']['name'])
+
+        loc_resp = self.sess.get(resp['location_area_encounters'])
+
+        code = loc_resp.status_code
+        if code != 200:
+            raise ValueError(f'Request failed with status code: {code} and message: '
+                             f'{loc_resp.text}')
+        
+        loc_resp = loc_resp.json()
+
+        for i in range(0, len(loc_resp)):
+            if re.search("viridian|kanto|moon|rock-tunnel|power-plant|seafoam", loc_resp[i]['location_area']['name']):
+            # if "viridian" in loc_resp[i]['location_area']['name'] or "kanto" in loc_resp[i]['location_area']['name']:
+                locations.append(loc_resp[i]['location_area']['name'])
+
+        result['locations'] = locations
+        # result['test'] = Pokemon(result['name']).getMoveVersionDetails("tackle")[0]
         return result
 
     def get_ability_description(self, ability):
