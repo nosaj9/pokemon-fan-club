@@ -1,4 +1,5 @@
 import requests
+from pokeapi.pokemon import Pokemon
 
 class PokeClient(object):
     def __init__(self):
@@ -56,6 +57,9 @@ class PokeClient(object):
 
         moves = []
         for move_dict in resp['moves']:
+            # level = Pokemon(result['name']).getMoveVersionDetails(move_dict['move']['name'])[0]['level']
+            # if level != 0:
+            #     moves.append(move_dict['move']['name'] + " (Level " + str(level) + ")")
             moves.append(move_dict['move']['name'])
         
         result['moves'] = moves
@@ -65,7 +69,7 @@ class PokeClient(object):
             abilities.append(ability_dict['ability']['name'])
         
         result['abilities'] = abilities
-
+        result['stats'] = Pokemon(result['name']).getStats()
         return result
 
     def get_ability_description(self, ability):

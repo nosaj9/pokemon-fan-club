@@ -18,9 +18,9 @@
         <li>
             Type(s):
             <ul>
-            {% for i in pokemon['types'] %}
+            {% for type in pokemon['types'] %}
                 <li>
-                    {{ i.type.name }}
+                    {{ type.type.name }}
                 </li>
             {% endfor %}
             </ul>
@@ -28,6 +28,16 @@
         <li>Height: {{ pokemon['height'] }}</li>
         <li>Weight: {{ pokemon['weight'] }}</li>
         <li>Base Exp: {{ pokemon['base_exp'] }}</li>
+    </ul>
+
+    <br/>
+    <h5>Stats</h5>
+    <ul>
+    {% for stat in pokemon['stats'] %}
+        <li>
+            {{ stat['name'] }} : {{ stat['baseStat'] }}
+        </li>
+    {% endfor %}
     </ul>
 
     {% if pokemon['abilities'] %}
@@ -50,7 +60,7 @@
         {% endfor %}
         </div>
     {% endif %}
-    
+
     {# Comments #}
     <div class="row">
       <div class="col-md-10">

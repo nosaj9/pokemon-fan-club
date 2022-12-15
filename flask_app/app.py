@@ -21,13 +21,11 @@ login_manager = LoginManager()
 
 # pass this into Talisman when ready
 csp = {
-    'default-src': '\'self\'',
-    # 'img-src': '*',
-    # 'script-src': '*min.js'
+    'script-src': ['https://code.jquery.com/', 'https://cdn.jsdelivr.net/', 'https://stackpath.bootstrapcdn.com/']
 }
 
 app = Flask(__name__)
-#Talisman(app, content_security_policy=None)
+Talisman(app, content_security_policy=csp)
 app.config["SECRET_KEY"] = os.urandom(16)
 app.config["MONGODB_HOST"] = "mongodb://localhost:27017/pokemon_rater"
 # main = Blueprint("main", __name__)
