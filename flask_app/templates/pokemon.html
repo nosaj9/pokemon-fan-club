@@ -30,15 +30,17 @@
         <li>Base Exp: {{ pokemon['base_exp'] }}</li>
     </ul>
 
-    <br/>
-    <h5>Stats {{ stats_emoji }}</h5>
-    <ul>
-    {% for stat in pokemon['stats'] %}
-        <li>
-            {{ stat['name'] }} : {{ stat['baseStat'] }}
-        </li>
-    {% endfor %}
-    </ul>
+    {% if pokemon['stats'] %}
+        <br/>
+        <h5>Stats {{ stats_emoji }}</h5>
+        <ul>
+        {% for stat in pokemon['stats'] %}
+            <li>
+                {{ stat['name'] }} : {{ stat['baseStat'] }}
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
 
     {% if pokemon['abilities'] %}
         <br/>
