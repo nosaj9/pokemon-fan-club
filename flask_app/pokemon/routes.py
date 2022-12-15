@@ -28,7 +28,7 @@ def pokemon_info(pokemon_name):
             pokemon_name=pokemon_name,
         )
         review.save()
-
+        flash("Comment successfully added!")
         return redirect(request.path)
     elif favorite.validate_on_submit() and current_user.is_authenticated:
         current_user.modify(favorite_pokemon=pokemon_name)
