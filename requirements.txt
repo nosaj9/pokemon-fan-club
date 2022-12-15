@@ -43,7 +43,8 @@ requests==2.24.0
 six==1.15.0
 toml==0.10.1
 urllib3==1.25.11
-Werkzeug==1.0.1
+#Werkzeug==1.0.1
+Werkzeug==2.0.3
 WTForms==2.3.3
 emoji==2.2.0
 flask-talisman==1.0.0
