@@ -77,11 +77,9 @@ class PokeClient(object):
 
         for i in range(0, len(loc_resp)):
             if re.search("viridian|kanto|moon|rock-tunnel|power-plant|seafoam", loc_resp[i]['location_area']['name']):
-            # if "viridian" in loc_resp[i]['location_area']['name'] or "kanto" in loc_resp[i]['location_area']['name']:
                 locations.append(loc_resp[i]['location_area']['name'])
 
         result['locations'] = locations
-        # result['test'] = Pokemon(result['name']).getMoveVersionDetails("tackle")[0]
         return result
 
     def get_ability_description(self, ability):
