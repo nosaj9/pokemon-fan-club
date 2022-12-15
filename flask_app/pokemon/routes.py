@@ -47,7 +47,8 @@ def pokemon_info(pokemon_name):
     num_favorited=num_favorited, 
     info_emoji=emojize(":pencil:"),
     ability_emoji=emojize(":magic_wand:"),
-    moves_emoji=emojize(":collision:"),
+    stats_emoji=emojize(":file_folder:"),
+    moves_emoji=emojize(":crossed_swords:"),
     )
 
 @pokemon.route('/ability/<ability_name>')
