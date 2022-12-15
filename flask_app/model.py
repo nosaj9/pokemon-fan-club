@@ -66,10 +66,6 @@ class PokeClient(object):
         result['stats'] = Pokemon(result['name']).getStats()
 
         locations = []
-        #for i in range(0, len(resp['location_area_encounters'])):
-            #if "kanto" in resp['location_area_encounters']:
-                #locations.push(resp['location_area_encounters']['location_area']['name'])
-
         loc_resp = self.sess.get(resp['location_area_encounters'])
 
         code = loc_resp.status_code

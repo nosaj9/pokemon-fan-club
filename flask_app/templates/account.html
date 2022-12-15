@@ -28,7 +28,7 @@
         </form>
 
         <h3>Your favorite Pokemon is: {{ current_user.favorite_pokemon }}!</h3>
-        <img src="{{ pokemon['sprite'].front_default }}" width="150rem">
+        <img src="{{ pokemon['sprite'].front_default }}" width="150rem" alt="">
 
         <a href="{{ url_for('users.user_detail', username=current_user.username) }}">
             <h4>View your comments here</h4>
