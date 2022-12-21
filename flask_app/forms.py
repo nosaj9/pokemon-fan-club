@@ -14,7 +14,7 @@ from wtforms.validators import (
 )
 
 import re
-from models import User
+from .models import User
 from emoji import emojize
 
 class PokemonCommentForm(FlaskForm):
@@ -28,7 +28,7 @@ def password_check(form, field):
         raise ValidationError("Password must have at least one uppercase letter")
     elif re.search('[0-9]', field.data) is None:
         raise ValidationError('Password must contain a number')
-    elif re.search('[~!@#\$%^&()?<>,.;:]', field.data) is None:
+    elif re.search('[~!@#\$%^&()[]?<>,.;:]', field.data) is None:
         raise ValidationError('Password must contain a special symbol')
 
 class RegistrationForm(FlaskForm):
