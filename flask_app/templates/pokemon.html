@@ -120,7 +120,7 @@
             </div>
             {% endif %}
             <br/>
-            {{ form.submit() }}
+            {{ form.submit(class="btn btn-primary") }}
           </div>
 
         </form>
@@ -130,7 +130,7 @@
         <div class="col-md-10">
           <form method="POST" action="">
             {{ favorite_form.csrf_token }}
-            <span style="margin-left: 2rem;">{{ favorite_form.submit() }}</span>
+            <span style="margin-left: 2rem;">{{ favorite_form.submit(class="btn btn-success") }}</span>
           </form>
         </div>
     </div>
