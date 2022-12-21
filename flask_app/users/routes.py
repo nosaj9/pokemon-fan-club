@@ -21,7 +21,6 @@ def register():
         user = User(username=form.username.data, email=form.email.data, password=hashed)
         user.save()
 
-        #change to "login" later
         return redirect(url_for("users.login"))
 
     return render_template("register.html", title="Register", form=form)
