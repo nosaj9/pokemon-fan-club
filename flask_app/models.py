@@ -22,10 +22,9 @@ class User(db.Document, UserMixin):
     def get_id(self):
         return self.username
 
-class Like(db.Document):
-    user = db.ReferenceField(User, required=True)
-    username = db.StringField(required=True, unique=True)
-    pokemon_name = db.StringField(required=True, min_length=1, max_length=40)
+class Pokemon(db.Document):
+    name = db.StringField(required=True, unique=True)
+    likers = db.ListField(db.StringField(required=True, unique=True), default=[])
 
 class Comment(db.Document):
     commenter = db.ReferenceField(User, required=True)

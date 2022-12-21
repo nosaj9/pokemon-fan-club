@@ -3,7 +3,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 
 from app import bcrypt
 from forms import RegistrationForm, LoginForm, UpdateUsernameForm, PokemonCommentForm, FavoritePokemonForm, LikePokemonForm, UnlikePokemonForm
-from models import User, Comment, Like
+from models import User, Comment, Pokemon
 from model import PokeClient
 from datetime import datetime
 from emoji import emojize
@@ -22,13 +22,12 @@ def pokemon_info(pokemon_name):
     favorite = FavoritePokemonForm()
     form = PokemonCommentForm()
     like = LikePokemonForm()
-    is_like = None
+    is_like = False
 
     if current_user.is_authenticated:
-    # if a like for this pokemon by this user already exists
-        if Like.objects(Q(username=current_user.username) | Q(pokemon_name=pokemon_name)).first() is not None:
+        # if a like for this pokemon by this user already exists
+        if Pokemon.objects(Q(name=pokemon_name) & Q(likers__contains=current_user.username)):
             like = UnlikePokemonForm()
-            is_like = False
         else:
             is_like = True
 
@@ -40,45 +39,55 @@ def pokemon_info(pokemon_name):
             pokemon_name=pokemon_name,
         )
         review.save()
+
         flash("Comment successfully added!")
         return redirect(request.path)
     elif favorite.submitFavorite.data and favorite.validate_on_submit() and current_user.is_authenticated:
         current_user.modify(favorite_pokemon=pokemon_name)
         current_user.save()
+
         flash("Favorite Pokemon successfully updated!")
         return redirect(request.path)
     elif like.submitLike.data and like.validate_on_submit() and current_user.is_authenticated:
         if is_like:
-            like = Like(
-                user = current_user._get_current_object(),
-                username = current_user.username,
-                pokemon_name=pokemon_name,
-            )
-            like.save()
+            if Pokemon.objects(name=pokemon_name).first() is None:
+                pokemon = Pokemon(name = pokemon_name)
+                pokemon.save()
+            
+            pokemon = Pokemon.objects(name=pokemon_name).get()
+            pokemon.likers.append(current_user.username)
+            pokemon.save()
+
             flash("Like successfully added!")
             return redirect(request.path)
         else:
-            Like.objects(Q(pokemon_name=pokemon_name) & Q(username=current_user.username)).delete()
+            pokemon = Pokemon.objects(name=pokemon_name).update(pull__likers=current_user.username)
+
             flash("Like successfully removed!")
             return redirect(request.path)
 
     comments = Comment.objects(pokemon_name=pokemon_name)
-    likes = Like.objects(pokemon_name=pokemon_name)
+    
+    num_likes = 0
+
+    if Pokemon.objects(name=pokemon_name).first() is not None:
+        num_likes = len(Pokemon.objects.get(name=pokemon_name).likers)
+
     num_favorited = len(User.objects(favorite_pokemon=pokemon_name))
 
     return render_template('pokemon.html', 
-    pokemon=poke_client.get_pokemon_info(pokemon_name), 
-    form=form, 
-    likes=likes,
-    comments=comments, 
-    like_form=like,
-    favorite_form=favorite, 
-    num_favorited=num_favorited, 
-    info_emoji=emojize(":pencil:"),
-    ability_emoji=emojize(":magic_wand:"),
-    stats_emoji=emojize(":file_folder:"),
-    locations_emoji=emojize(":world_map:"),
-    moves_emoji=emojize(":crossed_swords:"),
+        pokemon=poke_client.get_pokemon_info(pokemon_name), 
+        form=form, 
+        num_likes=num_likes,
+        comments=comments, 
+        like_form=like,
+        favorite_form=favorite, 
+        num_favorited=num_favorited, 
+        info_emoji=emojize(":pencil:"),
+        ability_emoji=emojize(":magic_wand:"),
+        stats_emoji=emojize(":file_folder:"),
+        locations_emoji=emojize(":world_map:"),
+        moves_emoji=emojize(":crossed_swords:"),
     )
 
 @pokemon.route('/ability/<ability_name>')

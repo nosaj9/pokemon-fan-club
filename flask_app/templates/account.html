@@ -27,8 +27,12 @@
             </div>
         </form>
 
+        {% if current_user.favorite_pokemon %}
         <h3>Your favorite Pokemon is: <a href="{{ url_for('pokemon.pokemon_info', pokemon_name=current_user.favorite_pokemon) }}">{{ current_user.favorite_pokemon }}!</a></h3>
         <img src="{{ pokemon['sprite'].front_default }}" width="150rem" alt="">
+        {% else %}
+        <h3>Your favorite Pokemon is: {{ current_user.favorite_pokemon }}!</h3>
+        {% endif %}
 
         <a href="{{ url_for('users.user_detail', username=current_user.username) }}">
             <h4>View your comments here</h4>
