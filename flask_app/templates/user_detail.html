@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col">
         <h2>{{ username }}'s Profile</h2>
-        <h3>Favorite Pokemon: {{ favorite_pokemon }}</h3>
+        <h3>Favorite Pokemon: <a href="{{ url_for('pokemon.pokemon_info', pokemon_name=favorite_pokemon) }}">{{ favorite_pokemon }}</a></h3>
         <img src="{{ pokemon['sprite'].front_default }}" width="150rem">
     </div>
 </div>
