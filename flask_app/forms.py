@@ -58,9 +58,14 @@ class LoginForm(FlaskForm):
     password = PasswordField("Password", validators=[InputRequired()])
     submit = SubmitField("Login")
 
+class LikePokemonForm(FlaskForm):
+    submitLike = SubmitField("Like This Pokemon " + emojize(":thumbs_up:"))
+
+class UnlikePokemonForm(FlaskForm):
+    submitLike = SubmitField("Unlike This Pokemon " + emojize(":thumbs_down:"))
 
 class FavoritePokemonForm(FlaskForm):
-    submit = SubmitField("Favorite This Pokemon! " + emojize(":green_heart:"))
+    submitFavorite = SubmitField("Favorite This Pokemon! " + emojize(":green_heart:"))
 
 class UpdateUsernameForm(FlaskForm):
     username = StringField(

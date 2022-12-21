@@ -81,7 +81,8 @@
     {# Comments #}
     <div class="row">
       <div class="col-md-10">
-        <br/>
+        <br/><br/>
+        <h3>{{ likes|length }} likes</h3>
         <h3>{{ num_favorited }} people have favorited this Pokemon</h3>
         <br/>
         <h3>Comments ({{ comments|length }} comments)</h3>
@@ -103,7 +104,7 @@
     </div>
     
     {% if current_user.is_authenticated %}
-    {# Comment and Favorite submission form #}
+    {# Comment, Like, and Favorite submission form #}
     <div class="row">
       <div class="col-md-10">
         <form method="POST" action="">
@@ -127,12 +128,16 @@
       </div>
     </div>
     <div class="row">
-        <div class="col-md-10">
-          <form method="POST" action="">
-            {{ favorite_form.csrf_token }}
-            <span style="margin-left: 2rem;">{{ favorite_form.submit(class="btn btn-success") }}</span>
-          </form>
-        </div>
+      <div class="col-md-10">
+        <form method="POST" action="">
+          {{ like_form.csrf_token }}
+          <span style="margin-left: 2rem;">{{ like_form.submitLike(class="btn btn-info") }}</span>
+        </form>
+        <form method="POST" action="">
+          {{ favorite_form.csrf_token }}
+          <span style="margin-left: 2rem;">{{ favorite_form.submitFavorite(class="btn btn-success") }}</span>
+        </form>
+      </div>
     </div>
     {% endif %}
 
