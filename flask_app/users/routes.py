@@ -60,7 +60,6 @@ def account():
     username_form = UpdateUsernameForm()
 
     if username_form.validate_on_submit():
-        # current_user.username = username_form.username.data
         current_user.modify(username=username_form.username.data)
         current_user.save()
         return redirect(url_for("users.account"))
