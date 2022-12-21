@@ -2,7 +2,7 @@ from flask import Blueprint, redirect, url_for, render_template, flash, request
 from flask_login import current_user, login_required, login_user, logout_user
 
 from .. import bcrypt
-from ..forms import RegistrationForm, LoginForm, UpdateUsernameForm, PokemonCommentForm, FavoritePokemonForm, LikePokemonForm, UnlikePokemonForm
+from ..forms import RegistrationForm, LoginForm, PokemonCommentForm, FavoritePokemonForm, LikePokemonForm, UnlikePokemonForm, UnfavoritePokemonForm
 from ..models import User, Comment, Pokemon
 from ..model import PokeClient
 from datetime import datetime
@@ -22,14 +22,20 @@ def pokemon_info(pokemon_name):
     favorite = FavoritePokemonForm()
     form = PokemonCommentForm()
     like = LikePokemonForm()
-    is_like = False
+    use_like_form = False
+    use_favorite_form = False
 
     if current_user.is_authenticated:
         # if a like for this pokemon by this user already exists
         if Pokemon.objects(Q(name=pokemon_name) & Q(likers__contains=current_user.username)):
             like = UnlikePokemonForm()
         else:
-            is_like = True
+            use_like_form = True
+
+        if current_user.favorite_pokemon == pokemon_name:
+            favorite = UnfavoritePokemonForm()
+        else:
+            use_favorite_form = True
 
     if form.submit.data and form.validate_on_submit() and current_user.is_authenticated:
         review = Comment(
@@ -43,13 +49,20 @@ def pokemon_info(pokemon_name):
         flash("Comment successfully added!")
         return redirect(request.path)
     elif favorite.submitFavorite.data and favorite.validate_on_submit() and current_user.is_authenticated:
-        current_user.modify(favorite_pokemon=pokemon_name)
-        current_user.save()
+        if use_favorite_form:
+            current_user.modify(favorite_pokemon=pokemon_name)
+            current_user.save()
 
-        flash("Favorite Pokemon successfully updated!")
-        return redirect(request.path)
+            flash("Favorite Pokemon successfully updated!")
+            return redirect(request.path)
+        else:
+            current_user.modify(favorite_pokemon=None)
+            current_user.save()
+
+            flash("Unfavorited this Pokemon!")
+            return redirect(request.path)
     elif like.submitLike.data and like.validate_on_submit() and current_user.is_authenticated:
-        if is_like:
+        if use_like_form:
             if Pokemon.objects(name=pokemon_name).first() is None:
                 pokemon = Pokemon(name = pokemon_name)
                 pokemon.save()

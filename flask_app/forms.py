@@ -65,7 +65,10 @@ class UnlikePokemonForm(FlaskForm):
     submitLike = SubmitField("Unlike This Pokemon " + emojize(":thumbs_down:"))
 
 class FavoritePokemonForm(FlaskForm):
-    submitFavorite = SubmitField("Favorite This Pokemon! " + emojize(":green_heart:"))
+    submitFavorite = SubmitField("Favorite This Pokemon! " + emojize(":red_heart:"))
+
+class UnfavoritePokemonForm(FlaskForm):
+    submitFavorite = SubmitField("Unfavorite This Pokemon! " + emojize(":broken_heart:"))
 
 class UpdateUsernameForm(FlaskForm):
     username = StringField(
