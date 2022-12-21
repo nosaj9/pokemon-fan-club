@@ -3,8 +3,6 @@ from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 
 from datetime import datetime
-import io
-import base64
 import os
 
 from flask_bcrypt import Bcrypt
@@ -19,8 +17,6 @@ def page_not_found(e):
     return render_template("404.html"), 404
 
 def create_app(test_config=None):
-
-    # pass this into Talisman when ready
     csp = {
         'script-src': ['https://code.jquery.com/', 'https://cdn.jsdelivr.net/', 'https://stackpath.bootstrapcdn.com/']
     }
@@ -42,8 +38,5 @@ def create_app(test_config=None):
     login_manager.login_view = "users.login"
 
     app.register_error_handler(404, page_not_found)
-
-    # from model import PokeClient
-    # poke_client = PokeClient()
 
     return app
