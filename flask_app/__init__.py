@@ -13,6 +13,9 @@ db = MongoEngine()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
 
+from .users.routes import users
+from .pokemon.routes import pokemon
+
 def page_not_found(e):
     return render_template("404.html"), 404
 
@@ -27,8 +30,7 @@ def create_app(test_config=None):
     app.config["MONGODB_HOST"] = "mongodb://localhost:27017/pokemon_rater"
     main = Blueprint("main", __name__)
     app.register_blueprint(main)
-    from .users.routes import users
-    from .pokemon.routes import pokemon
+
     app.register_blueprint(users)
     app.register_blueprint(pokemon)
 
