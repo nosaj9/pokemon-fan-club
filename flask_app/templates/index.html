@@ -17,6 +17,27 @@ margin-left: auto;
 margin-right: auto;
 width: 40%;
 border-radius: 3rem;"/><br/>
+
+<div style="margin-left: 5.5rem; ">
+    <h4>Search for a Pokemon: </h4>
+    <form action="/" class="form-group" method="POST">
+    {{ form.csrf_token }}
+    {{ form.search_query(class="form-control", placeholder="Enter name of Pokemon") }}
+
+    {% if form.search_query.errors %}
+        <div class="alert alert-warning" role="alert">
+            {% for error in form.search_query.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {{ form.submit(class="btn btn-outline-success") }}
+    </form>
+</div>
+
+<br/><br/>
+
 <span style="margin-left: 5%;"><b>Pokemon List (Original 151)</b></span>
 <p style="margin-left: 5%;">Click to see more info and leave a comment and/or favorite!</p>
 {% if pokemon_list %}

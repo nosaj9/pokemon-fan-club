@@ -2,7 +2,7 @@ from flask import Blueprint, redirect, url_for, render_template, flash, request
 from flask_login import current_user, login_required, login_user, logout_user
 
 from .. import bcrypt
-from ..forms import RegistrationForm, LoginForm, PokemonCommentForm, FavoritePokemonForm, LikePokemonForm, UnlikePokemonForm, UnfavoritePokemonForm
+from ..forms import RegistrationForm, LoginForm, PokemonCommentForm, FavoritePokemonForm, LikePokemonForm, UnlikePokemonForm, UnfavoritePokemonForm, SearchForm
 from ..models import User, Comment, Pokemon
 from ..model import PokeClient
 from datetime import datetime
@@ -13,9 +13,26 @@ poke_client = PokeClient()
 
 pokemon = Blueprint('pokemon', __name__)
 
-@pokemon.route('/')
+@pokemon.route('/', methods=["GET", "POST"])
 def index():
-    return render_template('index.html', pokemon_list=poke_client.get_pokemon_list())
+    form = SearchForm()
+
+    if form.validate_on_submit():
+        return redirect(url_for("pokemon.query_results", query=form.search_query.data))
+
+    return render_template('index.html', pokemon_list=poke_client.get_pokemon_list(), form=form)
+
+
+@pokemon.route("/search-results/<query>", methods=["GET"])
+def query_results(query):
+    try:
+        results = poke_client.search(query)
+    except ValueError as e:
+        flash(str(e))
+        return redirect(url_for("index"))
+
+    return render_template("query.html", results=results)
+
 
 @pokemon.route('/pokemon/<pokemon_name>', methods=["GET", "POST"])
 def pokemon_info(pokemon_name):
@@ -103,9 +120,11 @@ def pokemon_info(pokemon_name):
         moves_emoji=emojize(":crossed_swords:"),
     )
 
+
 @pokemon.route('/ability/<ability_name>')
 def pokemon_with_ability(ability_name):
     return render_template('ability.html', ability=ability_name, description=poke_client.get_ability_description(ability_name), ability_pokemon=poke_client.get_pokemon_with_ability(ability_name))
+
 
 @pokemon.route('/about')
 def display_about():

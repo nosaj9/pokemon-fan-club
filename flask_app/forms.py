@@ -17,6 +17,12 @@ import re
 from .models import User
 from emoji import emojize
 
+class SearchForm(FlaskForm):
+    search_query = StringField(
+        "Query", validators=[InputRequired(), Length(min=1, max=100)]
+    )
+    submit = SubmitField("Search")
+
 class PokemonCommentForm(FlaskForm):
     text = TextAreaField(
         "Comment", validators=[InputRequired(), Length(min=5, max=500)]

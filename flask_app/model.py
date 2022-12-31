@@ -8,6 +8,22 @@ class PokeClient(object):
         self.sess.headers.update({'User Agent': 'CMSC388J Spring 2021 Project 2'})
         self.base_url = 'https://pokeapi.co/api/v2'
 
+    def search(self, search_string):
+        
+        req = f'pokemon/{search_string}'
+        resp = self.sess.get(f'{self.base_url}/{req}')
+
+        code = resp.status_code
+        if code != 200:
+            raise ValueError(f'Request failed with status code: {code} and message: '
+                             f'{resp.text}')
+        
+        resp = resp.json()
+
+        result = [{"name": resp['name'], "sprite": resp['sprites']}]
+        
+        return result
+
     def get_pokemon_list(self):
         """
         Returns a list of pokemon names
