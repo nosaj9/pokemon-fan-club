@@ -76,8 +76,15 @@ class PokeClient(object):
         loc_resp = loc_resp.json()
 
         for i in range(0, len(loc_resp)):
-            if re.search("viridian|kanto|moon|rock-tunnel|power-plant|seafoam", loc_resp[i]['location_area']['name']):
-                locations.append(loc_resp[i]['location_area']['name'])
+            #if re.search("kanto|moon|rock-tunnel|power-plant|seafoam|pokemon-tower|pokemon-mansion|cave|pallet|viridian|pewter|cerulean|vermilion|lavender|celadon|fuchsia|saffron|cinnabar", loc_resp[i]['location_area']['name']):
+            for j in range(0, len(loc_resp[i]['version_details'])):
+                cur_loc = loc_resp[i]['version_details'][j]['version']['name']
+
+                if "red" in cur_loc or cur_loc == "blue" or cur_loc == "yellow" or cur_loc == "leafgreen": 
+                    locations.append(loc_resp[i]['location_area']['name'])
+                    break
+        
+        locations.sort()
 
         result['locations'] = locations
         return result
