@@ -28,7 +28,14 @@ def create_app(test_config=None):
     Talisman(app, content_security_policy=csp)
     app.config["SECRET_KEY"] = os.urandom(16)
     #app.config["MONGODB_HOST"] = "mongodb://localhost:27017/pokemon_rater"
-    app.config["MONGODB_URI"] = "mongodb+srv://nosaj9:AeibKrBRHj8BzLFD@cluster0.znsncma.mongodb.net/?retryWrites=true&w=majority"
+    
+    app.config["MONGODB_HOST"] = "mongodb+srv://nosaj9:<password>@cluster0.znsncma.mongodb.net/pokemonfanclub?retryWrites=true&w=majority"
+    #app.config["MONGODB_URI"] = "mongodb+srv://nosaj9:QYX56AO1cT8uS51O@cluster0.znsncma.mongodb.net/pokemonfanclub?retryWrites=true&w=majority"
+    # app.config['MONGODB_SETTINGS'] = {
+    #     'host': "mongodb+srv://nosaj9:QYX56AO1cT8uS51O@cluster0.znsncma.mongodb.net/pokemonfanclub?retryWrites=true&w=majority&ssl=false",
+    #     #'db': "pokemon_rater",
+    #     #'port': 27017,
+    # }
     main = Blueprint("main", __name__)
     app.register_blueprint(main)
 
