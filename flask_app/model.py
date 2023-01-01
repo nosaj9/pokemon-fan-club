@@ -83,7 +83,15 @@ class PokeClient(object):
         result['dex_number'] = resp['id']
         result['sprite'] = resp['sprites']
         
-        result['moves'] = Pokemon(result['name']).getMoves()
+        #result['moves'] = Pokemon(result['name']).getMoves()
+        result['moves'] = []
+
+        for move_dict in resp['moves']:
+            for version_detail in move_dict['version_group_details']:
+                version = version_detail['version_group']['name']
+
+                if version == "red-blue" or version == "red-blue":
+                    result['moves'].append(move_dict['move']['name'])
 
         abilities = []
         for ability_dict in resp['abilities']:
