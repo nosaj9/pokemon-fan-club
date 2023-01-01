@@ -25,13 +25,17 @@ def index():
 
 @pokemon.route("/search-results/<query>", methods=["GET"])
 def query_results(query):
+    if query.isdigit():
+        if int(query) >= 1 and int(query) <= len(poke_client.all_pokemon):
+            return redirect(url_for("pokemon.pokemon_info", pokemon_name=query))
+    
     try:
         results = poke_client.search(query)
     except ValueError as e:
         flash(str(e))
         return redirect(url_for("pokemon.index"))
-    
-    return render_template("query.html", results=results)
+
+    return render_template("query.html", results=results, query=query)
 
 
 @pokemon.route('/pokemon/<pokemon_name>', methods=["GET", "POST"])
