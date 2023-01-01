@@ -37,12 +37,14 @@ class PokeClient(object):
         
         return result
 
+
     def get_pokemon_list(self):
         """
         Returns a list of pokemon names
         """
         return self.all_pokemon
     
+
     def get_pokemon_info(self, pokemon):
         """
         Arguments:
@@ -114,6 +116,7 @@ class PokeClient(object):
         result['locations'] = locations
         return result
 
+
     def get_ability_description(self, ability):
         req = f'ability/{ability}'
         resp = self.sess.get(f'{self.base_url}/{req}')
@@ -129,7 +132,6 @@ class PokeClient(object):
         else:
             return resp.json()['effect_entries'][len(resp.json()['effect_entries'])-1]['short_effect']
         
-
 
     def get_pokemon_with_ability(self, ability):
         """
@@ -153,6 +155,7 @@ class PokeClient(object):
                 pokemon.append(poke_dict['pokemon']['name'])
 
         return pokemon
+
 
 ## -- Example usage -- ###
 if __name__=='__main__':

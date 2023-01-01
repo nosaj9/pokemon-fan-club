@@ -10,7 +10,6 @@ from emoji import emojize
 from mongoengine.queryset.visitor import Q
 
 poke_client = PokeClient()
-
 pokemon = Blueprint('pokemon', __name__)
 
 @pokemon.route('/', methods=["GET", "POST"])

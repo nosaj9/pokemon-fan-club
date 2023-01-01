@@ -98,6 +98,7 @@ def account():
             pokemon=result
         )
 
+
 @users.route("/user/<username>", methods=["GET", "POST"])
 def user_detail(username):
     user = User.objects(username=username).first()
