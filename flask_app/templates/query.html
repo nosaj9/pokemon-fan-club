@@ -5,14 +5,21 @@
 {% endif %}
 
 <div class="container-fluid">
-    {% for result in results %}
-    <div class="media">
-        <img src="{{ result['sprite'].front_default }}" class="mr-3 movie" alt="missing">
-        <div class="media-body">
-        <h5 class="mt-0"><a href="{{ url_for('pokemon.pokemon_info', pokemon_name=result['name']) }}">{{ result['name'] }}</a></h5>
+    <h3><u>Results:</u></h3>
+    {% if results %}
+        {% for result in results %}
+        <div class="media">
+            <h5 class="mt-0"><a href="{{ url_for('pokemon.pokemon_info', pokemon_name=result['name']) }}">{{ result['name'] }}</a></h5>
+            <img src="{{ result['sprite'].front_default }}" alt="missing">
         </div>
-    </div>
-    {% endfor %}
+        {% endfor %}
+    {% else %}
+        <h5>No results found</h5>
+    {% endif %}
+
+    <a href="{{ url_for('pokemon.index') }}">
+        Return Home
+    </a>
 </div>
 
 {% endblock %}

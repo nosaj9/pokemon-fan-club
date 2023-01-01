@@ -18,22 +18,24 @@ margin-right: auto;
 width: 40%;
 border-radius: 3rem;"/><br/>
 
-<div style="margin-left: 5.5rem; ">
-    <h4>Search for a Pokemon: </h4>
-    <form action="/" class="form-group" method="POST">
-    {{ form.csrf_token }}
-    {{ form.search_query(class="form-control", placeholder="Enter name of Pokemon") }}
+<div class="row" style="margin-left: 2rem;">
+    <div class="col">
+        <h4>Search for a Pokemon: </h4>
+        <form action="/" class="form-inline my-2 my-lg-0" method="POST">
+        {{ form.csrf_token }}
+        {{ form.search_query(class="form-control", placeholder="Enter name or dex #") }}
 
-    {% if form.search_query.errors %}
-        <div class="alert alert-warning" role="alert">
-            {% for error in form.search_query.errors %}
-            <span>{{ error }}</span>
-            {% endfor %}
-        </div>
-    {% endif %}
+        {% if form.search_query.errors %}
+            <div class="alert alert-warning" role="alert">
+                {% for error in form.search_query.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
 
-    {{ form.submit(class="btn btn-outline-success") }}
-    </form>
+        {{ form.submit(class="btn btn-outline-success") }}
+        </form>
+    </div>
 </div>
 
 <br/><br/>
@@ -49,3 +51,9 @@ border-radius: 3rem;"/><br/>
 {% endif %}
 <a class="nav-link" href="{{ url_for('pokemon.display_about') }}">About</a>
 {% endblock %}
+
+<style>
+    .form-inline {
+        width: 50rem;
+    }
+</style>

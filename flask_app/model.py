@@ -7,20 +7,33 @@ class PokeClient(object):
         self.sess = requests.Session()
         self.sess.headers.update({'User Agent': 'CMSC388J Spring 2021 Project 2'})
         self.base_url = 'https://pokeapi.co/api/v2'
+        
+        self.all_pokemon = []
+        resp = self.sess.get(f'{self.base_url}/pokemon?limit=151')
+        for poke_dict in resp.json()['results']:
+            self.all_pokemon.append(poke_dict['name'])
+        
 
     def search(self, search_string):
+        result = []
         
-        req = f'pokemon/{search_string}'
-        resp = self.sess.get(f'{self.base_url}/{req}')
+        if search_string.isdigit():
+            req = f'pokemon/{search_string}'
+            resp = self.sess.get(f'{self.base_url}/{req}')
 
-        code = resp.status_code
-        if code != 200:
-            raise ValueError(f'Request failed with status code: {code} and message: '
-                             f'{resp.text}')
-        
-        resp = resp.json()
+            code = resp.status_code
+            if code != 200:
+                raise ValueError(f'Request failed with status code: {code} and message: '
+                                 f'{resp.text}')
+            
+            resp = resp.json()
 
-        result = [{"name": resp['name'], "sprite": resp['sprites']}]
+            result.append({"name": resp['name'], "sprite": resp['sprites']})
+        else:
+            for pokemon_name in self.all_pokemon:
+                if search_string in pokemon_name:
+                    resp2 = self.sess.get(f'{self.base_url}/pokemon/{pokemon_name}')
+                    result.append({"name": pokemon_name, "sprite": resp2.json()['sprites']})
         
         return result
 
@@ -28,11 +41,7 @@ class PokeClient(object):
         """
         Returns a list of pokemon names
         """
-        pokemon = []
-        resp = self.sess.get(f'{self.base_url}/pokemon?limit=151')
-        for poke_dict in resp.json()['results']:
-            pokemon.append(poke_dict['name'])
-        return pokemon
+        return self.all_pokemon
     
     def get_pokemon_info(self, pokemon):
         """
@@ -137,15 +146,10 @@ class PokeClient(object):
         if code != 200:
             raise ValueError(f'Request failed with status code: {code} and message: '
                              f'{resp.text}')
-    
-        kanto_pokemon = []
-        resp1 = self.sess.get(f'{self.base_url}/pokemon?limit=151')
-        for poke_dict in resp1.json()['results']:
-            kanto_pokemon.append(poke_dict['name'])
 
         pokemon = []
         for poke_dict in resp.json()['pokemon']:
-            if poke_dict['pokemon']['name'] in kanto_pokemon:
+            if poke_dict['pokemon']['name'] in self.all_pokemon:
                 pokemon.append(poke_dict['pokemon']['name'])
 
         return pokemon

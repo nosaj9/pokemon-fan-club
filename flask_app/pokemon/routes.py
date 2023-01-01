@@ -29,8 +29,8 @@ def query_results(query):
         results = poke_client.search(query)
     except ValueError as e:
         flash(str(e))
-        return redirect(url_for("index"))
-
+        return redirect(url_for("pokemon.index"))
+    
     return render_template("query.html", results=results)
 
 
